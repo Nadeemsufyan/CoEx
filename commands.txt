@@ -1,0 +1,121 @@
+python run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir -cProfile > gpt2-wt2rawv1.txt
+
+
+
+python run_mlm.py --model_name_or_path bert-base-uncased --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-mlm
+
+
+
+python run_mlm.py --model_name_or_path bert-base-uncased --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8  --do_train  --do_eval  --output_dir /tmp/test-mlm
+
+
+
+------------------------
+
+export TRAIN_FILE=/home/test/code/data/wiki.train.raw
+export TEST_FILE=/home/test/code/data/wiki.test.raw
+export output=/home/test/code/data/
+
+
+python run_language_modeling.py output_dir=/home/test/code/output --model_type=gpt2 --model_name_or_path=gpt2 --do_train --train_data_file=$TRAIN_FILE --do_eval --eval_data_file=$TEST_FILE
+
+
+python run_language_modeling.py --output_dir=/home/test/code/output --model_type=bert --model_name_or_path=bert-base-uncased --do_train --train_data_file=/home/test/code/data/wiki.train.raw --do_eval --eval_data_file=/home/test/code/data/wiki.test.raw    --num_train_epochs=1 --save_steps=400 --eval_all_checkpoints --mlm
+
+----------------------------------------
+
+python run_clm.py –model_type gpt2 –tokenizer_name gpt2 –block_size 256 –dataset_name wikitext –dataset_config_name wikitext-2-raw-v1 –do_train –do_eval –overwrite_output_dir –num_train_epochs 1 –output_dir /tmp/test-clm
+
+
+python run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm
+
+
+----------------------------
+python run_fim.py --model_name_or_path gpt2 --dataset_name wikitext  --dataset_config_name wikitext-2-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --fim_rate 0.5   --fim_spm_rate 0.2 --do_train  --do_eval 
+   --output_dir /tmp/test-clm
+
+
+
+python run_clm_no_trainer.py --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1 --model_name_or_path openai-community/gpt2 --output_dir /tmp/test-clm
+
+
+------------- Working Code --roberta-base------------- GPU Flush Issue ----------------
+
+python run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_train --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir
+
+
+python -m cProfile  run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_train --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir
+
+
+python -m cProfile  run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-2-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_train --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir
+
+
+python -m cProfile  run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-103-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_train --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir
+
+python -m cProfile  run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-103-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_train --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir
+
+-------------- GPT2 ----------------------
+
+python run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir
+
+
+python run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-2-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir
+
+
+
+python run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-103-raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir
+
+
+
+python run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-103-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir
+
+-------------------------------------
+
+
+python run_image_classification.py   --dataset_name beans --output_dir /tmp/image_output/ --remove_unused_columns False --label_column_name labels  --do_train --do_eval --push_to_hub --push_to_hub_model_id vit-base-beans --learning_rate 2e-5 --num_train_epochs 5 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --logging_strategy steps --logging_steps 10 --eval_strategy epoch --save_strategy epoch --load_best_model_at_end True --save_total_limit 3 --seed 1337
+
+
+python run_image_classification.py --train_dir /home/test/code/imagenettiny/imagenet-50 --output_dir /tmp/image_output/ --remove_unused_columns False --do_train  --do_eval
+
+
+
+--------------- CPU check with profiling
+
+python -m cProfile run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-2-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir  > gpt2-wt2v1.txt
+
+
+
+python -m cProfile run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-103_raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir  > gpt2-wt103rawv1.txt
+
+
+python -m cProfile run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_train --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir  > bert-wt2v1.txt
+
+
+python -m cProfile run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-103-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_train --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir  > bert-gpu-wt103raw-v1.txt
+
+
+python -m cProfile run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-2-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir  > gpt2-gpu-wt2v1.txt
+
+-------------------------
+    pip uninstall torch torchvision torchaudio
+
+    pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+
+
+
+--------------- GPU check with profiling
+
+python -m cProfile run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-103-raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_eval --output_dir /tmp/test-clm --overwrite_output_dir  > /home/test/Downloads/gpt2-wt103rawv1_inf.txt
+
+
+
+python -m cProfile run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-103_raw-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_eval --output_dir /tmp/test-clm --overwrite_output_dir  > /home/test/Downloads/gpt2-wt103rawv1_inf.txt
+
+
+python -m cProfile run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir  > /home/test/Downloads/bert-wt2v1_inf.txt
+
+
+python -m cProfile run_mlm.py --model_name_or_path FacebookAI/roberta-base --dataset_name wikitext --dataset_config_name wikitext-103-raw-v1  --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --max_seq_length 512 --do_eval --output_dir /tmp/test-mlm --overwrite_output_dir  > /home/test/Downloads//bert-gpu-wt103raw-v1_inf.txt
+
+
+python -m cProfile run_clm.py --model_name_or_path openai-community/gpt2 --dataset_name wikitext --dataset_config_name wikitext-2-v1 --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_train --do_eval --output_dir /tmp/test-clm --overwrite_output_dir  > /home/test/Downloads/gpt2-gpu-wt2v1_inf.txt
